@@ -10,8 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 0) do
+ActiveRecord::Schema[7.2].define(version: 20_240_806_044_258) do # rubocop:disable Metrics/BlockLength
   # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  enable_extension 'plpgsql'
 
+  create_table 'products', force: :cascade do |t|
+    t.string 'name'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
+  create_table 'users', force: :cascade do |t|
+    t.string 'email'
+    t.string 'name'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+  end
+
+  create_table 'wishlist_items', force: :cascade do |t|
+    t.bigint 'user_id', null: false
+    t.bigint 'wishlist_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['user_id'], name: 'index_wishlist_items_on_user_id'
+    t.index ['wishlist_id'], name: 'index_wishlist_items_on_wishlist_id'
+  end
+
+  create_table 'wishlists', force: :cascade do |t|
+    t.bigint 'user_id', null: false
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['user_id'], name: 'index_wishlists_on_user_id'
+  end
+
+  add_foreign_key 'wishlist_items', 'users'
+  add_foreign_key 'wishlist_items', 'wishlists'
+  add_foreign_key 'wishlists', 'users'
 end
