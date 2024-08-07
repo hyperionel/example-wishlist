@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  get 'wishlists/:token', to: 'wishlists#show', as: 'shareable_wishlist', param: :token
+
+  resources :wishlists do
+    resources :wishlist_items, only: %i[create destroy]
+  end
+
   devise_for :users, path_names: { sign_in: 'login', sign_out: 'logout' }
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

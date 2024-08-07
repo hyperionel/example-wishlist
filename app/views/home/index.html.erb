@@ -1,0 +1,14 @@
+<h1>Your Wishlists</h1>
+
+<%= link_to 'New Wishlist', new_wishlist_path %>
+
+<ul>
+  <% @wishlists.each do |wishlist| %>
+    <li>
+      <%= link_to wishlist.name, wishlist_path(wishlist) %> |
+      <%= link_to 'Share', shareable_wishlist_path(wishlist.token) %> |
+      <%= link_to 'Edit', edit_wishlist_path(wishlist) %> |
+      <%= link_to 'Delete', wishlist_path(wishlist), method: :delete, data: { confirm: 'Are you sure?' } %>
+    </li>
+  <% end %>
+</ul>
